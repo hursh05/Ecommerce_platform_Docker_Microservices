@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "5000:5000"
+    depends_on:
+      - user-db
+  catalog-service:
+    build: ./catalog-service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - catalog-db
+  orders-service:
+    build: ./orders-service
+    ports:
+      - "5002:5002"
+    depends_on:
+      - kafka
+  payments-service:
+    build: ./payments-service
+    ports:
+      - "5003:5003"
+  user-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_db
+  catalog-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: catalog_db
+  kafka:
+    build: ./kafka
+  redis:
+    build: ./redis
